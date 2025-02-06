@@ -12,7 +12,7 @@ default_args = {
 
 # Define the DAG
 with DAG(
-    'ecommerce_data_etl',
+    'ecommerce_etl_pipeline',
     default_args=default_args,
     description='ETL process for E-commerce Data Warehouse & Batch Analytics Pipeline',
     schedule_interval='1 0 * * *',  # Run at 12:01 AM every day
