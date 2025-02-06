@@ -1,0 +1,88 @@
+services:
+  webserver:
+    image: apache/airflow:latest
+    hostname: webserver
+    command: ["airflow", "webserver"]
+    entrypoint: ['/opt/airflow/script/entrypoint.sh']
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"    
+    environment:
+      LOAD_EX: "n"
+      EXECUTOR: Sequential
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+      AIRFLOW__WEBSERVER__SECRET_KEY: this_is_webserver_secret_key
+      GOOGLE_APPLICATION_CREDENTIALS: ./service-account-file.json
+      PG_DATABASE: ${PG_DATABASE}
+      PG_USER: ${PG_USER}
+      PG_PASSWORD: ${PG_PASSWORD}
+      PG_HOST: ${PG_HOST}
+      PG_PORT: ${PG_PORT}
+      BQ_PROJECT_ID: ${BQ_PROJECT_ID}
+      BQ_DATASET_ID: ${BQ_DATASET_ID}
+      BQ_TABLE_ID: ${BQ_TABLE_ID}
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./script/entrypoint.sh:/opt/airflow/script/entrypoint.sh
+      - ./requirements.txt:/opt/airflow/requirements.txt
+      - ./data:/data
+      - ./service-account-file.json:/opt/airflow/service-account-file.json
+    healthcheck:
+      test: ['CMD-SHELL', "[ -f /opt/airflow/airflow-webserver.pid ]"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    networks:
+      - project_network
+
+  scheduler:
+    image: apache/airflow:latest
+    hostname: scheduler
+    command: bash -c "pip install -r ./requirements.txt && airflow db upgrade && airflow scheduler"    
+    depends_on:
+      webserver:
+          condition: service_healthy
+    environment:
+      LOAD_EX: "n"
+      EXECUTOR: Sequential
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+      AIRFLOW__WEBSERVER__SECRET_KEY: this_is_webserver_secret_key
+      GOOGLE_APPLICATION_CREDENTIALS: ./service-account-file.json
+      PG_DATABASE: ${PG_DATABASE}
+      PG_USER: ${PG_USER}
+      PG_PASSWORD: ${PG_PASSWORD}
+      PG_HOST: ${PG_HOST}
+      PG_PORT: ${PG_PORT}
+      BQ_PROJECT_ID: ${BQ_PROJECT_ID}
+      BQ_DATASET_ID: ${BQ_DATASET_ID}
+      BQ_TABLE_ID: ${BQ_TABLE_ID}
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./script/entrypoint.sh:/opt/airflow/script/entrypoint.sh
+      - ./requirements.txt:/opt/airflow/requirements.txt
+      - ./data:/data
+      - ./service-account-file.json:/opt/airflow/service-account-file.json
+    networks:
+      - project_network
+
+  postgres:
+    image: postgres:14.0
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    networks:
+      - project_network
+
+networks:
+  project_network:
+    driver: bridge
