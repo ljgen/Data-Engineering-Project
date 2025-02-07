@@ -14,7 +14,7 @@ default_args = {
 with DAG(
     'ecommerce_etl_pipeline',
     default_args=default_args,
-    description='ETL process for E-commerce Data Warehouse & Batch Analytics Pipeline',
+    description='ETL process for E-commerce Data Warehouse & Analytics',
     schedule_interval='1 0 * * *',  # Run at 12:01 AM every day
     catchup=False,
     max_active_runs=1

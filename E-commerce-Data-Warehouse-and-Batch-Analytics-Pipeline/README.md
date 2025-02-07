@@ -1,7 +1,7 @@
 # E-commerce Data Warehouse & Batch Analytics Pipeline
 
 ## Project Overview
-![](system_architecture.jpg)
+![](z-image_processing/01.System_Architecture.jpg)
 
 This project demonstrates the design and implementation of a batch-processing data pipeline for an e-commerce platform. It extracts data from a PostgreSQL database, performs necessary transformations, and loads the processed data into Google BigQuery. Business intelligence reporting is enabled via Google Looker Studio, providing actionable insights into sales and customer behavior.
 
@@ -64,26 +64,16 @@ This project demonstrates the design and implementation of a batch-processing da
    - Connect Google Looker Studio to your BigQuery dataset.
    - Use the provided templates or create custom dashboards for sales and customer insights.
 
-## Folder Structure
-```
-.
-├── dags
-│   └── ecommerce_dag.py
-│   └── ecommerce_data_prep.py
-├── script
-│   └── entrypoint.sh
-├── .env
-├── README.md
-├── docker-compose.yml
-├── requirements.txt
-├── system_architecture.jpg
-└── your_service_account_key.json
-```
-
 ## Key Results
 - **Enhanced Business Intelligence**: Automated reporting and dynamic dashboards reduced manual reporting time.
 - **Improved Decision-Making**: Provided actionable insights into sales trends and customer behavior.
 - **Scalable Architecture**: Easily adaptable to handle larger datasets and more complex workflows.
+
+## Data Pipeline Output
+![](z-image_processing/02.Airflow_Tasks.jpg)
+![](z-image_processing/03.Airflow_Result.jpg)
+![](z-image_processing/04.BigQuery_Result.jpg)
+![](z-image_processing/05.LookerStudio_Result.jpg)
 
 ## Contributing
 Contributions are welcome! Please fork the repository, create a feature branch, and submit a pull request.
