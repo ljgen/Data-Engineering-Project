@@ -1,7 +1,7 @@
 # End-to-End IoT Sensor Data Analytics (Real-Time)
 
 ## Project Overview
-![](system_architecture.jpg)
+![](z-image_processing/01.System_Architecture.jpg)
 
 This project showcases the design and implementation of a real-time data analytics pipeline for IoT sensor data. The system captures, processes, and visualizes real-time data from IoT devices, enabling immediate insights and monitoring capabilities. Data flows from Kafka to PySpark for processing, with raw data stored in Amazon S3 and processed results saved in TimescaleDB (PostgreSQL). Real-time dashboards in Grafana provide interactive visualizations and facilitate data-driven decision-making.
 
@@ -75,26 +75,20 @@ This project showcases the design and implementation of a real-time data analyti
    ```
 
 6. **Access Grafana Dashboards**:
-   Navigate to `http://localhost:3000` and log in with the default credentials (`admin/admin`). Connect Grafana to TimescaleDB and import the provided dashboard templates.
-
-## Folder Structure
-
-```
-.
-├── .env
-├── README.md
-├── docker-compose.yml
-├── iot_sensor_data.py
-├── iot_sensor_processing.py
-├── requirements.txt
-└── system_architecture.jpg
-```
+   Navigate to `http://localhost:3000` and log in. Connect Grafana to TimescaleDB and import the provided dashboard templates.
 
 ## Key Results
 
 - **Real-Time Monitoring**: Enabled immediate insights into IoT device performance and data trends.
 - **Scalable Processing**: Leveraged PySpark for efficient, distributed data processing.
 - **Enhanced Decision-Making**: Provided dynamic, real-time dashboards for data-driven actions.
+
+## Grafana Dashboard Using TimescaleDB Data
+
+This Grafana dashboard visualizes data from TimescaleDB and can be adjusted to meet your needs.
+
+![](z-image_processing/02.Grafana.jpg)
+
 
 ## Contributing
 
@@ -103,4 +97,3 @@ Contributions are welcome! Please fork the repository, create a feature branch, 
 ---
 
 Enjoy exploring real-time insights from your IoT sensor data!
-
